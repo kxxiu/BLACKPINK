@@ -1,0 +1,82 @@
+@charset "utf-8";
+
+/* font-family : 'Spinnaker' */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Spinnaker&display=swap');
+
+/* font-family: 'REM' */
+@import url('https://fonts.googleapis.com/css2?family=REM:wght@700;800;900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@900&display=swap');
+
+
+:root{
+  --t-color01: #fff;
+  --t-color02: #EE99AC;
+
+  --bg-color01: #171717;
+
+  --fz-14: 0.875rem;
+  --fz-18: 1.125rem;
+  --fz-20: 1.25rem;
+  --fz-22: 1.375rem;
+  --fz-24: 1.5rem;
+  --fz-26: 1.625rem;
+  
+  --f-style01: font-family: 'REM';
+
+}
+
+html{overflow: hidden;}
+html, body{width: 100%;height: 100%;}
+
+body{
+  font-family: 'Spinnaker', 'Noto Sans KR', sans-serif;
+  font-size: var(--fz-14);
+  color: var(--t-color01);
+  background: var(--bg-color01);
+}
+a{
+  color: var(--t-color01);
+  text-decoration: none;
+  font-size: var(--fz-14);
+}
+
+/*** 메인 ***/
+.section {
+  position: relative;
+  width: 100%;height: 100vh;
+  overflow: hidden;
+}
+.article{
+  width: 90%;height: 100%;
+  margin: 0 auto;
+}
+
+/*** css적용 클래스 ***/
+.hidden{
+  display: block;
+  width: 1px;height: 1px;
+  text-indent: -9999px;
+}
+/* 헤더 배경 */
+.act{
+  height: 8%;
+  background: rgb(23,23,23);
+  background: linear-gradient(180deg, rgba(23,23,23,1) 38%, rgba(23,23,23,0.9641106442577031) 46%, rgba(23,23,23,0.8352591036414566) 59%, rgba(23,23,23,0.695203081232493) 70%, rgba(23,23,23,0) 100%)!important;
+}
+
+/* 내비게이션 메뉴 효과 */
+.gnb-line{border-bottom: 1px solid #fff;}
+
+/* 드롭다운 아이콘 */
+.on{
+  transform: rotate(180deg) translate(-10px);
+}
+
+/* sns 아이콘 */
+.quick{
+  transform: rotate(180deg) translate(-10px,-7px);
+}
+
+.slide-fwd-center{animation:slide-fwd-center 1s cubic-bezier(.25,.46,.45,.94) both}
+@keyframes slide-fwd-center{0%{transform:translateZ(0)}100%{transform:translateZ(160px)}}

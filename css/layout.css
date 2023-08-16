@@ -1,0 +1,234 @@
+@charset "utf-8";
+
+/*레이아웃 서식 header, main, footer 공통서식*/
+
+/* 배너 모달창 */
+.modal{
+  width: 100%;height: 100%;
+  position: fixed;left: 0;top: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+}
+.inner{
+  position: absolute;
+  top: 50%;left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;max-height: 600px;
+}
+.inner img{
+  width: 100%;
+  display: block;
+}
+.inner p{ 
+  position: relative;
+  background: rgba(0, 0, 0, 0.8);
+  line-height: 2.5rem;
+  font-size: 0.75rem;
+  padding: 0 2%;
+}
+#checkbox{
+  vertical-align: middle;
+  appearance: none;
+  width: 13px;height: 13px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+#checkbox:checked{
+  background: url(../images/checked_img.png) no-repeat;
+  background-size: 100%;
+}
+label[for=checkbox]{
+  font-family: 'Spinnaker';
+  vertical-align: middle;
+}
+.inner #close-btn{
+  position: absolute;
+  right: 10px;top: 10px;
+  font-size: var(--fz-20);
+  cursor: pointer;
+}
+
+/*** 헤더 ***/
+header{
+  position: fixed;top: 0;left: 0;
+  z-index: 1000;
+  width: 100%;height: 0px;
+  transition: 0.3s;
+}
+header > div{
+  width: 95%;height: 100%;
+  margin: 0 auto;
+}
+header h1{
+  display: inline-block;
+  margin-top: 1.18rem;
+}
+header h1 img{
+  width: 100%;
+  height: var(--fz-20);
+}
+
+/* 내비게이션 */
+header nav{
+  position: absolute;
+  top: var(--fz-20);right: 8%;
+  width: 40%;
+}
+header .gnb{
+  display: flex;
+  justify-content: space-around;
+}
+header .gnb > li > a{
+  color: var(--t-color01);
+  font-size: var(--fz-18);
+  transition: background-size 0.6s;
+  background-image: linear-gradient(transparent calc(100% - 1px), var(--t-color01) 1px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+}
+
+/* 다국어버튼 */
+.lang {
+  position: absolute;
+  top: var(--fz-20);right: 2%;
+}
+.lang .selected {
+  display: block;
+  font-size: var(--fz-18);
+  cursor: pointer;
+}
+.lang .selected span {
+  display: inline-block;
+}
+.lang .selected i {
+  padding-left: 0.625rem;
+  font-size: var(--fz-18);
+  vertical-align: top;
+}
+.lang .options ul {
+  display: none;
+  position: absolute;
+  top: 130%;left: 0;
+  width: 100%;
+  border-bottom: 1px solid var(--t-color01);
+  box-sizing: border-box;
+}
+.lang .selected span.value,
+.lang .options span.value {
+  display: none;
+}
+.lang .options ul li a {
+  display: block;
+  font-size: var(--fz-18);
+  line-height: 1.75rem;
+  box-sizing: border-box;
+  transition: 0.3s ease;
+}
+.lang .options ul li:last-child a {letter-spacing: 2px;}
+.lang .options ul li a:hover {color: var(--t-color02);}
+
+
+/*** 메인 ***/
+
+/* 페이지별 인덱스 */
+.index{
+  display: flex;
+  justify-content: space-between;
+  padding-top: 65px;
+  font-size: var(--fz-20);
+  vertical-align: middle;
+}
+.index > h3{
+  word-spacing: 4rem;
+}
+.line{
+  width: 65%;height: 1px;
+  margin: 0 auto;
+  background: var(--t-color01);
+  transform: translateY(10px);
+}
+
+/* SNS 퀵메뉴 */
+#sns{
+  position: fixed;
+  top: 50%;right: -50px;
+  z-index: 100;
+  transform: translateY(-50%);
+}
+#sns span{
+  position: absolute;
+  right: 140%;top: 50%;
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#sns span:hover{
+  font-weight: bold;
+}
+#sns span img{
+  display: block;
+  padding: 5px 0 0 5px;
+}
+#sns ul li{margin: 5px 0;}
+#sns ul li a{
+  display: block;
+  border-radius: 50%;
+}
+#sns ul li img{
+  width: 40px; height: 40px;
+  border: 1px solid #fff;
+  transition: 0.3s;
+}
+#sns ul li img:hover{
+  border: 1px solid var(--t-color02);
+  background: rgba(238,153,172,0.6);
+}
+
+/*푸터*/
+footer{
+  background: rgb(23,23,23);
+  background: linear-gradient(180deg, rgba(23,23,23,1) 0%, rgba(238,153,172,1) 100%);
+  width: 100%;
+  height: 100px;
+  padding: 40px 0;
+  display: inline-block;
+}
+.f_inner{
+  width: 1200px;
+  margin: 0 auto;
+}
+footer h2{
+  float: left;
+  padding-top: 10px;
+}
+footer h2 img{
+  width: 150px ;height: 100%;
+}
+
+.f_lnb, address{
+  width: 1000px;float: left;
+}
+.f_lnb ul{
+  display: flex;
+  padding-top: 15px;
+}
+.f_lnb ul li:nth-child(2) a{color: var(--t-color02);}
+.f_lnb ul li:last-child a{border: none;}
+.f_lnb ul a{
+  color: #ccc;
+  border-right: 1px solid #ccc;
+  padding: 0 20px;
+}
+
+footer address{
+  padding-top: 20px;
+  line-height: 30px;
+  text-transform: uppercase;
+  padding-left: 20px;
+  color: var(--t-color02);
+}
+footer address dt{display: inline-block;}
+footer address dd{display: inline-block;}
+
