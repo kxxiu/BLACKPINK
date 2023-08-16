@@ -433,7 +433,6 @@
   opacity: 0;
   animation-duration: 0.4s;
   animation-timing-function: ease-in-out;
-  border: 1px solid #fff;
 }
 .cd-horizontal-timeline .events-content li.selected {
   /* visible event content */
