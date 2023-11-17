@@ -22,7 +22,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 body {
 	line-height: 1;
 }
-ol, ul, li  {
+ol, ul, li {
 	list-style: none;
 }
 blockquote, q {

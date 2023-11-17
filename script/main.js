@@ -1,11 +1,9 @@
-
-/////intro
-
-// jQuery
 $(document).ready(function(){
   
-  //인트로 메인 슬라이드
-  var swiper = new Swiper(".mainSlide", {
+  // INTRO
+
+  // 비디오 슬라이드
+  var swiper = new Swiper(".introSlide", {
     slidesPerView: 1,
     spaceBetween: 0,
     centeredSlides: true,
@@ -16,454 +14,197 @@ $(document).ready(function(){
     loop: true,
     on: {
       init: function() {
-        $('.custom-fraction .current').text('0'+(this.realIndex + 1));
+        $('#intro .custom-fraction .current').text('0'+(this.realIndex + 1));
       },
       slideChangeTransitionStart: function() {
-        $('.custom-fraction .current').text('0'+(this.realIndex + 1));
+        $('#intro .custom-fraction .current').text('0'+(this.realIndex + 1));
       },
     }
   });
 
-  // intro 하단 스크롤 표시
+  // 스크롤 표시
   function scrollDown(){
-    $('.scroll-btn span').animate({'bottom':'67px'},800).animate({'bottom':'60px'},800);
-    $('.scroll-btn img').animate({'bottom':'22px'},800).animate({'bottom':'15px'},800);
+    $('.scroll-mark').animate({'bottom':'2%'},800).animate({'bottom':'3%'},800);
   }
 
-  let Updown = setInterval(scrollDown,1600);
+  let TimerSD = setInterval(scrollDown,0);
 
+
+
+  // 스크롤값 이벤트
+  $(window).scroll(function(){
+    let sPos = Math.ceil(($(this).scrollTop() / ($(document).height() - $(this).height())) * 100);
+    console.log(sPos);
+
+    if(sPos >= 5){
+      $('header').addClass('act');
+      $('.lang .options ul').css('background','rgba(23, 23, 23,0.9)');
+    }else{
+      $('header').removeClass('act');
+      $('.lang .options ul').css('background','none');
+    }
+
+    // PROFILE
+    if(sPos >= 30) {
+      $('.img-box').animate({'opacity':'1','top':'50%'},700,'easeOutQuad',function(){
+        $('.circle1').animate({'opacity':'1'},500);
+        $('.circle2').animate({'opacity':'1'},500);
+      });
+      $('.profile-txt > span').delay(1200).animate({'height':'78px'},function(){
+        $('.profile-name').animate({'width':'100%'});
+        $('.profile-txt ul').delay(450).animate({'opacity':'1'},300);
+      });
+    }
+
+    // ACTIVITIES
+    if(sPos >= 45) {
+      $('.act-cont:last-child .act-desc div:first-child ul').animate({'opacity':'1','top':'0'},600,'easeOutQuad');
+      $('.act-cont:last-child .act-desc div:last-child h6').delay(500).animate({'opacity':'1','top':'0'},600,'easeOutQuad',function(){
+        $('.act-cont:last-child .act-desc div:last-child ul').animate({'opacity':'1','top':'0'},600,'easeOutQuad');
+      });
+      $('.act-cont:last-child .act-img img:first-child').delay(1600).animate({'opacity':'1','bottom':'0'},600,function(){
+        $('.act-cont:last-child .act-img img:last-child').animate({'opacity':'1'},800,'easeOutBounce');
+      });
+    }
+
+    // ALBUM
+    if(sPos >= 60) {
+    $('.album-list').animate({'opacity':'1','bottom':'0'},700,'easeOutQuad',function(){
+      $('.albumSlide .swiper-slide:first-child .album-cd').animate({'top':'-50%'},600,function(){
+        $('.album-cont').fadeIn();
+        $('.albumSlide .swiper-slide:first-child .album-cd').addClass('play');
+        $('.album-cont .page-num').css('opacity','1')
+      });
+    });
+    }
+  });
 });
 
-
-/////ABOUT
-
-  gsap.set('.about-main', {position:'fixed', background:'#171717', width:'100%', maxWidth:'100%', height:'100%', top:0, left:'50%', x:'-50%'})
-  gsap.set('.scrollDist', {width:'100%', height:'200%'})
-  gsap.timeline({scrollTrigger:{trigger:'.scrollDist', start:'top top', end:'bottom bottom', scrub:2}})
-      .fromTo('.cloud1', {y:0},{y:-940}, 0)
-      .fromTo('.cloud2', {y:-150},{y:-900}, 0)
-      .fromTo('.cloud3', {y:-50},{y:-900}, 0)
-      .fromTo('.cloud4', {y:400},{y:-900}, 0)
-      .fromTo('.jisooBg', {y:0},{y:-950}, 0)
-      .fromTo('.jennieBg', {x: 270, y:50},{y:-950}, 0)
-      .fromTo('.roseBg', {x: 540, y:100},{y:-750}, 0)
-      .fromTo('.lisaBg', {x: 530, y:90},{y:-850}, 0)
-
-
-///// PROFILE
+//PROFILE
 
 // 프로필 탭메뉴
-  let contMnu = document.querySelectorAll('.tab-cont > li > a');
+let contMnu = document.querySelectorAll('.profile-list > li > a');
 
-  for(let i=0;i<contMnu.length;i++){
+for(let i=0;i<contMnu.length;i++){
+  console.log(contMnu[i]);
 
-    console.log(contMnu[i]);
+  contMnu[i].addEventListener('click',function(){
+    console.log(contMnu[i].nextElementSibling);
 
-    contMnu[i].addEventListener('click',function(){
+    for(let j=0;j<contMnu.length;j++){
+      contMnu[j].classList.remove('list-click');
+      contMnu[i].classList.add('list-click');
 
-      console.log(contMnu[i].nextElementSibling);
+      contMnu[j].nextElementSibling.classList.remove('fadeIn');
+      contMnu[i].nextElementSibling.classList.add('fadeIn');
+    }
+  });
 
-      for(let j=0;j<contMnu.length;j++){
-      contMnu[j].nextElementSibling.style.display='none';
-      contMnu[i].nextElementSibling.style.display='block';
-      }
-
-    // 메뉴 선택 표시
-    $(this).addClass('check').parent().siblings().find('a').removeClass('check');
-    });
-  }
-
-  // test
-
-  // jQuery(document).ready(function($){
-    var timelines = $('.cd-horizontal-timeline'),
-      eventsMinDistance = 60;
-  
-    (timelines.length > 0) && initTimeline(timelines);
-  
-    function initTimeline(timelines) {
-      timelines.each(function(){
-        var timeline = $(this),
-          timelineComponents = {};
-        //cache timeline components 
-        timelineComponents['timelineWrapper'] = timeline.find('.events-wrapper');
-        timelineComponents['eventsWrapper'] = timelineComponents['timelineWrapper'].children('.events');
-        timelineComponents['fillingLine'] = timelineComponents['eventsWrapper'].children('.filling-line');
-        timelineComponents['timelineEvents'] = timelineComponents['eventsWrapper'].find('a');
-        timelineComponents['timelineDates'] = parseDate(timelineComponents['timelineEvents']);
-        timelineComponents['eventsMinLapse'] = minLapse(timelineComponents['timelineDates']);
-        timelineComponents['timelineNavigation'] = timeline.find('.cd-timeline-navigation');
-        timelineComponents['eventsContent'] = timeline.children('.events-content');
-  
-        //assign a left postion to the single events along the timeline
-        setDatePosition(timelineComponents, eventsMinDistance);
-        //assign a width to the timeline
-        var timelineTotWidth = setTimelineWidth(timelineComponents, eventsMinDistance);
-        //the timeline has been initialize - show it
-        timeline.addClass('loaded');
-  
-        //detect click on the next arrow
-        timelineComponents['timelineNavigation'].on('click', '.next', function(event){
-          event.preventDefault();
-          updateSlide(timelineComponents, timelineTotWidth, 'next');
-        });
-        //detect click on the prev arrow
-        timelineComponents['timelineNavigation'].on('click', '.prev', function(event){
-          event.preventDefault();
-          updateSlide(timelineComponents, timelineTotWidth, 'prev');
-        });
-        //detect click on the a single event - show new event content
-        timelineComponents['eventsWrapper'].on('click', 'a', function(event){
-          event.preventDefault();
-          timelineComponents['timelineEvents'].removeClass('selected');
-          $(this).addClass('selected');
-          updateOlderEvents($(this));
-          updateFilling($(this), timelineComponents['fillingLine'], timelineTotWidth);
-          updateVisibleContent($(this), timelineComponents['eventsContent']);
-        });
-  
-        //on swipe, show next/prev event content
-        timelineComponents['eventsContent'].on('swipeleft', function(){
-          var mq = checkMQ();
-          ( mq == 'mobile' ) && showNewContent(timelineComponents, timelineTotWidth, 'next');
-        });
-        timelineComponents['eventsContent'].on('swiperight', function(){
-          var mq = checkMQ();
-          ( mq == 'mobile' ) && showNewContent(timelineComponents, timelineTotWidth, 'prev');
-        });
-  
-        //keyboard navigation
-        $(document).keyup(function(event){
-          if(event.which=='37' && elementInViewport(timeline.get(0)) ) {
-            showNewContent(timelineComponents, timelineTotWidth, 'prev');
-          } else if( event.which=='39' && elementInViewport(timeline.get(0))) {
-            showNewContent(timelineComponents, timelineTotWidth, 'next');
-          }
-        });
-      });
-    }
-  
-    function updateSlide(timelineComponents, timelineTotWidth, string) {
-      //retrieve translateX value of timelineComponents['eventsWrapper']
-      var translateValue = getTranslateValue(timelineComponents['eventsWrapper']),
-        wrapperWidth = Number(timelineComponents['timelineWrapper'].css('width').replace('px', ''));
-      //translate the timeline to the left('next')/right('prev') 
-      (string == 'next') 
-        ? translateTimeline(timelineComponents, translateValue - wrapperWidth + eventsMinDistance, wrapperWidth - timelineTotWidth)
-        : translateTimeline(timelineComponents, translateValue + wrapperWidth - eventsMinDistance);
-    }
-  
-    function showNewContent(timelineComponents, timelineTotWidth, string) {
-      //go from one event to the next/previous one
-      var visibleContent =  timelineComponents['eventsContent'].find('.selected'),
-        newContent = ( string == 'next' ) ? visibleContent.next() : visibleContent.prev();
-  
-      if ( newContent.length > 0 ) { //if there's a next/prev event - show it
-        var selectedDate = timelineComponents['eventsWrapper'].find('.selected'),
-          newEvent = ( string == 'next' ) ? selectedDate.parent('li').next('li').children('a') : selectedDate.parent('li').prev('li').children('a');
-        
-        updateFilling(newEvent, timelineComponents['fillingLine'], timelineTotWidth);
-        updateVisibleContent(newEvent, timelineComponents['eventsContent']);
-        newEvent.addClass('selected');
-        selectedDate.removeClass('selected');
-        updateOlderEvents(newEvent);
-        updateTimelinePosition(string, newEvent, timelineComponents, timelineTotWidth);
-      }
-    }
-  
-    function updateTimelinePosition(string, event, timelineComponents, timelineTotWidth) {
-      //translate timeline to the left/right according to the position of the selected event
-      var eventStyle = window.getComputedStyle(event.get(0), null),
-        eventLeft = Number(eventStyle.getPropertyValue("left").replace('px', '')),
-        timelineWidth = Number(timelineComponents['timelineWrapper'].css('width').replace('px', '')),
-        timelineTotWidth = Number(timelineComponents['eventsWrapper'].css('width').replace('px', ''));
-      var timelineTranslate = getTranslateValue(timelineComponents['eventsWrapper']);
-  
-          if( (string == 'next' && eventLeft > timelineWidth - timelineTranslate) || (string == 'prev' && eventLeft < - timelineTranslate) ) {
-            translateTimeline(timelineComponents, - eventLeft + timelineWidth/2, timelineWidth - timelineTotWidth);
-          }
-    }
-  
-    function translateTimeline(timelineComponents, value, totWidth) {
-      var eventsWrapper = timelineComponents['eventsWrapper'].get(0);
-      value = (value > 0) ? 0 : value; //only negative translate value
-      value = ( !(typeof totWidth === 'undefined') &&  value < totWidth ) ? totWidth : value; //do not translate more than timeline width
-      setTransformValue(eventsWrapper, 'translateX', value+'px');
-      //update navigation arrows visibility
-      (value == 0 ) ? timelineComponents['timelineNavigation'].find('.prev').addClass('inactive') : timelineComponents['timelineNavigation'].find('.prev').removeClass('inactive');
-      (value == totWidth ) ? timelineComponents['timelineNavigation'].find('.next').addClass('inactive') : timelineComponents['timelineNavigation'].find('.next').removeClass('inactive');
-    }
-  
-    function updateFilling(selectedEvent, filling, totWidth) {
-      //change .filling-line length according to the selected event
-      var eventStyle = window.getComputedStyle(selectedEvent.get(0), null),
-        eventLeft = eventStyle.getPropertyValue("left"),
-        eventWidth = eventStyle.getPropertyValue("width");
-      eventLeft = Number(eventLeft.replace('px', '')) + Number(eventWidth.replace('px', ''))/2;
-      var scaleValue = eventLeft/totWidth;
-      setTransformValue(filling.get(0), 'scaleX', scaleValue);
-    }
-  
-    function setDatePosition(timelineComponents, min) {
-      for (i = 0; i < timelineComponents['timelineDates'].length; i++) { 
-          var distance = daydiff(timelineComponents['timelineDates'][0], timelineComponents['timelineDates'][i]),
-            distanceNorm = Math.round(distance/timelineComponents['eventsMinLapse']) + 2;
-          timelineComponents['timelineEvents'].eq(i).css('left', distanceNorm*min+'px');
-      }
-    }
-  
-    function setTimelineWidth(timelineComponents, width) {
-      var timeSpan = daydiff(timelineComponents['timelineDates'][0], timelineComponents['timelineDates'][timelineComponents['timelineDates'].length-1]),
-        timeSpanNorm = timeSpan/timelineComponents['eventsMinLapse'],
-        timeSpanNorm = Math.round(timeSpanNorm) + 4,
-        totalWidth = timeSpanNorm*width;
-      timelineComponents['eventsWrapper'].css('width', totalWidth+'px');
-      updateFilling(timelineComponents['timelineEvents'].eq(0), timelineComponents['fillingLine'], totalWidth);
-    
-      return totalWidth;
-    }
-  
-    function updateVisibleContent(event, eventsContent) {
-      var eventDate = event.data('date'),
-        visibleContent = eventsContent.find('.selected'),
-        selectedContent = eventsContent.find('[data-date="'+ eventDate +'"]'),
-        selectedContentHeight = selectedContent.height();
-  
-      if (selectedContent.index() > visibleContent.index()) {
-        var classEnetering = 'selected enter-right',
-          classLeaving = 'leave-left';
-      } else {
-        var classEnetering = 'selected enter-left',
-          classLeaving = 'leave-right';
-      }
-  
-      selectedContent.attr('class', classEnetering);
-      visibleContent.attr('class', classLeaving).one('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(){
-        visibleContent.removeClass('leave-right leave-left');
-        selectedContent.removeClass('enter-left enter-right');
-      });
-      eventsContent.css('height', selectedContentHeight+'px');
-    }
-  
-    function updateOlderEvents(event) {
-      event.parent('li').prevAll('li').children('a').addClass('older-event').end().end().nextAll('li').children('a').removeClass('older-event');
-    }
-  
-    function getTranslateValue(timeline) {
-      var timelineStyle = window.getComputedStyle(timeline.get(0), null),
-        timelineTranslate = timelineStyle.getPropertyValue("-webkit-transform") ||
-               timelineStyle.getPropertyValue("-moz-transform") ||
-               timelineStyle.getPropertyValue("-ms-transform") ||
-               timelineStyle.getPropertyValue("-o-transform") ||
-               timelineStyle.getPropertyValue("transform");
-  
-          if( timelineTranslate.indexOf('(') >=0 ) {
-            var timelineTranslate = timelineTranslate.split('(')[1];
-          timelineTranslate = timelineTranslate.split(')')[0];
-          timelineTranslate = timelineTranslate.split(',');
-          var translateValue = timelineTranslate[4];
-          } else {
-            var translateValue = 0;
-          }
-  
-          return Number(translateValue);
-    }
-  
-    function setTransformValue(element, property, value) {
-      element.style["-webkit-transform"] = property+"("+value+")";
-      element.style["-moz-transform"] = property+"("+value+")";
-      element.style["-ms-transform"] = property+"("+value+")";
-      element.style["-o-transform"] = property+"("+value+")";
-      element.style["transform"] = property+"("+value+")";
-    }
-  
-    //based on http://stackoverflow.com/questions/542938/how-do-i-get-the-number-of-days-between-two-dates-in-javascript
-    function parseDate(events) {
-      var dateArrays = [];
-      events.each(function(){
-        var dateComp = $(this).data('date').split('/'),
-          newDate = new Date(dateComp[2], dateComp[1]-1, dateComp[0]);
-        dateArrays.push(newDate);
-      });
-        return dateArrays;
-    }
-  
-    function parseDate2(events) {
-      var dateArrays = [];
-      events.each(function(){
-        var singleDate = $(this),
-          dateComp = singleDate.data('date').split('T');
-        if( dateComp.length > 1 ) { //both DD/MM/YEAR and time are provided
-          var dayComp = dateComp[0].split('/'),
-            timeComp = dateComp[1].split(':');
-        } else if( dateComp[0].indexOf(':') >=0 ) { //only time is provide
-          var dayComp = ["2000", "0", "0"],
-            timeComp = dateComp[0].split(':');
-        } else { //only DD/MM/YEAR
-          var dayComp = dateComp[0].split('/'),
-            timeComp = ["0", "0"];
-        }
-        var	newDate = new Date(dayComp[2], dayComp[1]-1, dayComp[0], timeComp[0], timeComp[1]);
-        dateArrays.push(newDate);
-      });
-        return dateArrays;
-    }
-  
-    function daydiff(first, second) {
-        return Math.round((second-first));
-    }
-  
-    function minLapse(dates) {
-      //determine the minimum distance among events
-      var dateDistances = [];
-      for (i = 1; i < dates.length; i++) { 
-          var distance = daydiff(dates[i-1], dates[i]);
-          dateDistances.push(distance);
-      }
-      return Math.min.apply(null, dateDistances);
-    }
-  
-    /*
-      How to tell if a DOM element is visible in the current viewport?
-      http://stackoverflow.com/questions/123999/how-to-tell-if-a-dom-element-is-visible-in-the-current-viewport
-    */
-    function elementInViewport(el) {
-      var top = el.offsetTop;
-      var left = el.offsetLeft;
-      var width = el.offsetWidth;
-      var height = el.offsetHeight;
-  
-      while(el.offsetParent) {
-          el = el.offsetParent;
-          top += el.offsetTop;
-          left += el.offsetLeft;
-      }
-  
-      return (
-          top < (window.pageYOffset + window.innerHeight) &&
-          left < (window.pageXOffset + window.innerWidth) &&
-          (top + height) > window.pageYOffset &&
-          (left + width) > window.pageXOffset
-      );
-    }
-  
-    function checkMQ() {
-      //check if mobile or desktop device
-      return window.getComputedStyle(document.querySelector('.cd-horizontal-timeline'), '::before').getPropertyValue('content').replace(/'/g, "").replace(/"/g, "");
-    }
-  // });
-
-  $(document).ready(function(){
+  contMnu[i].addEventListener('mouseover',function(){
+    contMnu[i].classList.add('list-hover');
+  });
+  contMnu[i].addEventListener('mouseout',function(){
+    contMnu[i].classList.remove('list-hover');
+  });
+}
 
 // ACTIVITIES
-    let fill = 
-    $('.timeline-bar ol li a').click(function(){
-      $()
-    });
 
+$(document).ready(function(){
+    let bar = $('.timeline-gage');
+    let barMark = $('.time .mark');
 
+  $('.time').click(function(){
+    let k = $(this).index();
+    console.log(k);
 
-
-  //앨범 레코드이미지 효과
-    let r = 360
-    function record(){
-      $('#album > img').animate({'rotate':r+'deg'},3000,'easeInOutCubic').animate({'rotate':r*2+'deg'},3000,'easeInOutCubic');
+    // 타임라인 바
+    if(k == 8){
+      bar.animate({'height': 100 +'%'},400);
+      $('.timeline-bar ol li:last-child img').attr('src','./images/crown_on.png');
+    }else {
+      bar.animate({'height': 10 * k + 4 + '%'},400);
+      $('.timeline-bar ol li:last-child img').attr('src','./images/crown.png');
     }
 
-  let recordEffect = setInterval(record,0);
+    // 연도표시
+    barMark.removeClass('markColor');
+    barMark.eq(k-1).addClass('markColor');
+    
+    // 컨텐츠
+    let actCont = $('.act-cont')
+    let contLeft = $('.act-desc div:first-child ul')
+    let contRight = $('.act-desc div:last-child h6')
+    let contRight2 = $('.act-desc div:last-child ul')
+    
+    actCont.stop().fadeOut(400);
+    actCont.eq(k-1).stop().fadeIn(400);
+    actCont.eq(k-1).find(contLeft).animate({'opacity':'1','top':'0'},600,'easeOutQuad');
+    actCont.eq(k-1).find(contRight).delay(600).animate({'opacity':'1','top':'0'},600,'easeOutQuad',function(){
+      actCont.eq(k-1).find(contRight2).animate({'opacity':'1','top':'0'},600,'easeOutQuad');
+    });
+    actCont.eq(k-1).find('img:first-child').delay(1800).animate({'opacity':'1','bottom':'0'},600,function(){
+      actCont.eq(k-1).find('img:last-child').animate({'opacity':'1'},800,'easeOutBounce');
+    });
+  });
 
+  // ALBUM
 
-//앨범리스트 슬라이드
-  var swiper2 = new Swiper(".albumList", {
+  // 앨범리스트 슬라이드
+  var swiper2 = new Swiper(".albumSlide", {
     slidesPerView: 5,
-    spaceBetween: 5,
-    direction: 'vertical',
-    centeredSlides: true,
-    loop: true,
+    spaceBetween: 10,
+    navigation:{
+      nextEl:'.arrow-next',
+      prevEl:'.arrow-prev',
+    },
+    reverseDirection: true,
+    breakpoints: {
+      0 : {slidesPerView: 4},
+      1115: {slidesPerView: 5}
+    }
   });
 
-  //리스트 클릭시 효과
-  $('.albumList .swiper-slide img').click(function(){
-    $(this).parent().siblings().find('img').css({'border':'none','filter':'none'});
-    $(this).css({'filter':'brightness(0.8)','border':'2px solid #fff'});
-  });
+  // 앨범 내용
+  let albumList = $('.album-list .swiper-slide');
+  let albumCd = $('.album-list .swiper-slide .album-cd');
+  let albumNum = $('.album-list .swiper-slide').length;
+  let pageFirst = $('.album-cont .page-num .first-page');
+  let pageAll = $('.album-cont .page-num .all-page');
+  let albumBox = $('.album-box');
+  let i = 1;
 
-  //리스트 클릭시 화면전환
-  let listNum = 1; //초기값
-
-
-  //페이지번호
-  let pageNum = document.querySelector('#album .pageNum');
-
-  // 좌우 버튼
-  let albumLeft = document.querySelectorAll('.arrow-prev');
-  let albumRight = document.querySelectorAll('.arrow-next');
-
-
-  //페이지번호 출력
-  pageNum.innerHTML=`<span>0${listNum} /10`; //10이하는 0 붙이기!
-
-
-   // 앨범 페이지번호
-  let a = 1;
-  let albumList = $('.albumList .swiper-slide');
-  let albumNum =$('.albumList .swiper-slide').length;
-  let albumPage = $('#album .pageNum');
-  let i=0;
-  let albumC = $('.album-cont');
-
-  const leftBtn = $('.arrow-prev');
-  const rightBtn = $('.arrow-next');
+  albumBox.hide();
+  $('.album-box:first-child').stop().show();
 
   albumList.click(function(){
-  i = $(this).index()-5;
-  console.log(i);
-  albumC.hide(); //보이는콘텐츠 모두 숨기고
-  albumC.eq(i).show(); //해당 번호에 맞는 콘텐츠 보이게
-  });
-  
-  albumPage.innerHTML=`<span>0${i} /</span> 0${albumNum}`;
+    i = $(this).index();
+    console.log(i);
 
-  leftBtn.click(function(){
-    if(i==0){
-      i=9;
-    } else {
-      i--;
+    albumCd.animate({'top':'0%'},300,function(){
+      albumBox.fadeOut();
+      albumCd.stop().removeClass('play');
+      $('.album-cont .page-num').css('opacity','0')
+    })
+
+    albumCd.eq(i).animate({'top':'-50%'},600,function(){
+      albumBox.eq(i).fadeIn();
+      albumCd.eq(i).stop().addClass('play');
+      $('.album-cont .page-num').css('opacity','1')
+    })
+    
+    // 페이지 번호
+    if(i < 9) {
+      pageFirst.text('0' + (i + 1));
+    }else {
+      pageFirst.text(i + 1);
     }
-    albumPage.innerHTML=`<span>0${i} /</span> 0${albumNum}`;
-    albumC.hide(); //보이는콘텐츠 모두 숨기고
-    albumC.eq(i).show(); //해당 번호에 맞는 콘텐츠 보이게
-})
+  });
 
-rightBtn.click(function(){
-  if(i==9){
-    i=0;
-  }else{
-    i++;
-  }
-  albumPage.innerHTML=`<span>0${i} /</span> 0${albumNum}`;
-  albumC.hide(); //보이는콘텐츠 모두 숨기고
-  albumC.eq(i).show(); //해당 번호에 맞는 콘텐츠 보이게
-});
+  // 페이지 번호
+  pageAll.text(albumNum);
 
-//***** GALLERY
-//슬라이드
-  // var swiper = new Swiper(".gallerySlide", {
-  //   slidesPerView: 1,
-  //   spaceBetween: 0,
-  //   freeMode: true,
-  //   loop:true,
-  //   autoplay: {     
-  //     delay: 1000,
-  //   },
-  // });
-
-      // 멈춤
-    // $('.gallerySlide').hover(function(){
-    //   $('.gallerySlide').autoplay.stop();
-    // }, function(){
-    //   $('.gallerySldie').autoplay.start();
-    // });
+  // GALLERY
 
   $('.gallerySlide').each(function(index) {
     let t = $(this);
@@ -471,91 +212,222 @@ rightBtn.click(function(){
     let swiper = new Swiper( t, {
       autoplay: {
         delay: 0,
+        pauseOnMouseEnter: true,
       },
-      speed: 30000,
+      speed: 35000,
       loop: true,
       loopAdditionalSlides: 1,
       slidesPerView: 1,
-      disableOnInteraction: false
-    });
+      disableOnInteraction: false,
+      })
   });
 
-//이미지 클릭시 모달창
-  let galleryImg = $('.photo div img');
+  // 이미지 모달창
+  let galleryImg = $('.gallerySlide img');
+  let imgNum = (galleryImg.length-7)/2;
 
   galleryImg.click(function(){
     let imgUrl = $(this).attr('src');
-    console.log(imgUrl);
-    
-    let imgNum = $('.photo div img').length;
-    console.log(imgNum);
-    
-    let imgN = $(this).index()+1;
-  
+    let title = $(this).attr('alt');
+    let imgN = $(this).parent().index()+1;
 
-  let modal = `
-    <div class="modal gallery-modal">
-      <div>
-        <img src=${imgUrl} alt="이미지" class="main-img">
-        <span class="page">${imgN}/12</span>
-        <i><img src="../images/close.png" alt="닫기버튼"></i>
-        <i><img src="../images/arrowLeft2.png" alt="이전버튼"></i>
-        <i><img src="../images/arrowRight2.png" alt="다음버튼"></i>
+    console.log(imgUrl)
+
+    let modal = `
+      <div class="modal gallery-modal">
+        <div class="modal-img">
+          <div>
+            <img src="${imgUrl}" alt="${title}">
+            <span class="page">${imgN} / ${imgNum}</span>
+            <i><img src="./images/arrow_left_02.png" alt="이전버튼"></i>
+            <i><img src="./images/arrow_right_02.png" alt="다음버튼"></i>
+          </div>
+          <i><img src="./images/close.png" alt="닫기버튼"></i>
+        </div>
+        <ul class="img-index">
+          <li><img src="./images/gallery_1.jpg" alt="제니"></li>
+          <li><img src="./images/gallery_2.jpg" alt="지수"></li>
+          <li><img src="./images/gallery_3.jpg" alt="제니"></li>
+          <li><img src="./images/gallery_4.jpg" alt="블랙핑크"></li>
+          <li><img src="./images/gallery_5.jpg" alt="지수"></li>
+          <li><img src="./images/gallery_6.jpg" alt="리사"></li>
+          <li><img src="./images/gallery_7.jpg" alt="블랙핑크"></li>
+          <li><img src="./images/gallery_8.jpg" alt="제니"></li>
+          <li><img src="./images/gallery_9.jpg" alt="리사"></li>
+          <li><img src="./images/gallery_10.jpg" alt="로제"></li>
+          <li><img src="./images/gallery_11.jpg" alt="로제"></li>
+          <li><img src="./images/gallery_12.jpg" alt="제니"></li>
+          <li><img src="./images/gallery_13.jpg" alt="제니"></li>
+          <li><img src="./images/gallery_14.jpg" alt="로제"></li>
+          <li><img src="./images/gallery_15.jpg" alt="리사"></li>
+          <li><img src="./images/gallery_16.jpg" alt="로제"></li>
+          <li><img src="./images/gallery_17.jpg" alt="리사"></li>
+          <li><img src="./images/gallery_18.jpg" alt="지수"></li>
+          <li><img src="./images/gallery_19.jpg" alt="지수"></li>
+          <li><img src="./images/gallery_20.jpg" alt="블랙핑크"></li>
+        </ul>
       </div>
-    </div>
     `;
 
-  $('body').append(modal);
+    $('body').append(modal);
 
-  function moveLeft(){
-    if(imgN==1){
-      imgN==12;
-    }else{
-      imgN--;
+    // 좌우 버튼
+    let leftBtn = $('.modal-img > div i:first-of-type');
+    let rightBtn = $('.modal-img > div i:last-of-type');
+
+    function moveLeft(){
+      if(imgN == 1){
+        imgN = imgNum;
+      }else{
+        imgN--;
+      }
+      $('.modal-img .page').text(imgN+' / '+imgNum);
+      $('.modal-img > div > img').attr('src','./images/gallery_'+imgN+'.jpg');
     }
-    $('.gallery-modal .page').text(imgN+'/12');
-
-    $('.gallery-modal .main-img').attr('src','./images/photo0'+imgN+'.jpg');
-
-      // if(imgN<10){
-      //   $(this).text('0'+imgN)
-      // }
-  }
-  
-  function moveRight(){
-    if(imgN==imgNum){
-      imgN=1;
-    }else{
-      imgN++;
+    
+    function moveRight(){
+      if(imgN == imgNum){
+        imgN = 1;
+      }else{
+        imgN++;
+      }
+      $('.modal-img .page').text(imgN+' / '+imgNum);
+      $('.modal-img > div > img').attr('src','./images/gallery_'+imgN+'.jpg');
     }
-    $('.gallery-modal .page').html(imgN+'/12');
-    $('.gallery-modal .main-img').attr('src','./images/photo0'+imgN+'.jpg');
 
-  }
+    // 닫기버튼
+    $('.modal-img > i').click(function(){
+      $('.modal').fadeOut('fast');
+    });
+    // 좌측버튼
+    leftBtn.click(function(){
+      moveLeft();
+      imgCheck();
+    });
+    // 우측버튼
+    rightBtn.click(function(){
+      moveRight();
+      imgCheck();
+    });
 
-  // 닫기버튼
-  $('.gallery-modal i:first-of-type img').click(function(){
-    $('.modal').fadeOut('fast');
+    //썸네일 리스트 표시
+    function imgCheck(){
+      for(let j=0;j<imgNum;j++){
+        thumbList[j].style.border='none';
+        thumbList[j].style.filter='none';
+      }
+      thumbList[imgN-1].style.border='3px solid var(--main-color)';
+      thumbList[imgN-1].style.filter='brightness(0.7)';
+    }
+
+    // 썸네일 리스트
+    let thumbList = $('.img-index li img')
+    
+    thumbList[imgN-1].style.border='3px solid var(--main-color)';
+    thumbList[imgN-1].style.filter='brightness(0.7)';
+    
+    thumbList.click(function(){
+      let thumbNum = $(this).parent().index() + 1;
+      let thumbUrl= $(this).attr('src');
+      console.log(thumbNum);
+
+      thumbList.css('border','none');
+      $(this).css({'border':'3px solid var(--main-color)','filter':'brightness(0.7)'});
+
+      $('.modal-img > div > img').attr('src',thumbUrl);
+      $('.modal-img .page').text(thumbNum+' / '+imgNum);
+
+      leftBtn.click(function(){
+        if(thumbNum == 1){
+          thumbNum = imgNum;
+        }else{
+          thumbNum--;
+        }
+        $('.modal-img .page').text(thumbNum+' / '+imgNum);
+        $('.modal-img > div > img').attr('src','./images/gallery_'+thumbNum+'.jpg');
+        imgCheck()
+      });
+
+      rightBtn.click(function(){
+        if(thumbNum == imgNum){
+          thumbNum = 1;
+        }else{
+          thumbNum++;
+        }
+        $('.modal-img .page').text(thumbNum+' / '+imgNum);
+        $('.modal-img > div > img').attr('src','./images/gallery_'+thumbNum+'.jpg');
+        imgCheck()
+      });
+
+      function imgCheck(){
+        for(let j=0;j<imgNum;j++){
+          thumbList[j].style.border='none';
+          thumbList[j].style.filter='none';
+        }
+        thumbList[thumbNum-1].style.border='3px solid var(--main-color)';
+        thumbList[thumbNum-1].style.filter='brightness(0.7)';
+      }
+    });
+
   });
-  // 좌측버튼
-  $('.gallery-modal i:nth-of-type(2) img').click(function(){
-    moveLeft();
-  });
-  //우측버튼
-  $('.gallery-modal i:first-of-type img').click(function(){
-    moveRight();
-  });
-  return false;
-  });
-
-
-
-
-  //랜덤 이미지
-  let img = ['photo01', 'photo02', 'photo03', 'photo04'];
-  let ran = Math.ceil(Math.random()*4-1);
-  
-  document.getElementById('n-img').innerHTML=`<a href="#" title=배너><img src="./images/${img[ran]}.jpg" alt="배너"></a>`
-
 });
 
+  // NEWS
+
+  // 뉴스 슬라이드
+  const slide = document.querySelector('.carousel-wrap');
+  const card = document.querySelectorAll('.carousel .card');
+  const prevBtn = document.querySelector('#news .inner-box i:first-of-type');
+  const nextBtn = document.querySelector('#news .inner-box i:last-of-type');
+
+  const cardNum = card.length;
+  const cardCount = 3;
+  const cardWidth = 32;
+  const cardMargin = 2;
+
+  let count = 0;
+
+  slide.style.width = (cardWidth+cardMargin)*cardNum-cardMargin+'%';
+
+  function slideMove(m){
+    slide.style.left = (cardWidth+cardMargin)*-m+'%';
+    count = m;
+    console.log(slide.style.left);
+    console.log(count);
+  }
+
+  // 이전버튼
+  prevBtn.addEventListener('click', function(){
+    if(count > 0){
+      slideMove(count - 1);
+    }
+  });
+
+  // 다음버튼
+  nextBtn.addEventListener('click', function(){
+    if(count < cardNum-cardCount){
+      slideMove(count + 1);
+    }
+  });
+
+$(document).ready(function(){
+  // 이미지 세로 슬라이드
+
+  // 컨트롤버튼
+  let ctrlBtn = $('.ctrl-btn li');
+
+  let s = ctrlBtn.index();
+  console.log(s);
+
+  ctrlBtn.click(function(){
+    s = $(this).index();
+    console.log(s);
+    s = -(s * 100);
+    console.log(s);
+
+    $(this).parent().siblings().animate({'top':s+'%'},300);
+    $(this).siblings().removeClass('ctrl');
+    $(this).addClass('ctrl');
+  });
+
+});
