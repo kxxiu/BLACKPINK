@@ -553,6 +553,7 @@
   position: relative;
   width: 58%;margin-left: 3%;
   font-size: var(--fz-20);
+  font-family: var(--eng-font);
   line-height: 34px;
 }
 .album-box ol:before {
