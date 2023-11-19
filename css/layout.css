@@ -256,12 +256,12 @@ label[for=checkbox] {
 
 #sns {
   position: fixed;z-index: 1000;
-  top: 50%;right: -50px;
+  top: 50%;right: -3%;
   transform: translateY(-50%);
 }
 #sns span {
   position: absolute;
-  right: 140%;top: 50%;
+  right: 160%;top: 50%;
   transform: translateY(-50%);
   font-family: var(--eng-font);
   writing-mode: vertical-rl;

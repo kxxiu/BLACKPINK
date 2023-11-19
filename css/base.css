@@ -113,7 +113,7 @@ a {
 
 /* 프로필 리스트 */
 .list-hover {animation: hoverList 0.5s ease-out forwards;}
-@keyframes hoverList {
+@keyframes hoverList { 
   100% {background-position: 0 -30px;}
 }
 .list-click {animation: clickList 0.4s ease-out forwards;}
