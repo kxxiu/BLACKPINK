@@ -9,8 +9,8 @@
 
 @font-face {
   font-family: 'Helvetica93-ExtendedBlack';
-  src: url('Helvetica93-ExtendedBlack.woff2') format('woff2'),
-      url('Helvetica93-ExtendedBlack.woff') format('woff');
+  src: url('../font/Helvetica93-ExtendedBlack.woff2') format('woff2'),
+      url('../font/Helvetica93-ExtendedBlack.woff') format('woff');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
