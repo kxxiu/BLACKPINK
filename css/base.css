@@ -8,12 +8,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Spinnaker&display=swap');
 
 @font-face {
-  font-family: 'Helvetica93글-ExtendedBlack';
-  src: url('../font/Helvetica93-ExtendedBlack.woff') format('woff');
+  font-family: 'Helvetica93-ExtendedBlack';
+  src: url('Helvetica93-ExtendedBlack.woff2') format('woff2'),
+      url('Helvetica93-ExtendedBlack.woff') format('woff');
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
+
 
 :root {
   --main-color: #EE99AC;
